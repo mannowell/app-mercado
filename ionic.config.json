@@ -1,0 +1,7 @@
+{
+  "name": "app-mercado-new",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
