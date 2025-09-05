@@ -37,6 +37,7 @@
 
 &lt;script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import {
   IonPage,
   IonHeader,
@@ -78,6 +79,7 @@ export default defineComponent({
     IonItemOption
   },
   setup() {
+    const router = useRouter();
     const db = DatabaseService.getInstance();
     const listas = ref<ListaCompra[]>([]);
 
@@ -87,7 +89,34 @@ export default defineComponent({
     };
 
     const novaLista = () => {
-      // Implementar navegação para criar nova lista
+      router.push('/nova-lista');
+    };
+
+    const deleteLista = async (id?: number) => {
+      if (id) {
+        // Implementar exclusão da lista
+        await loadListas();
+      }
+    };
+
+    const formatDate = (date: Date) => {
+      return new Date(date).toLocaleDateString('pt-BR');
+    };
+
+    onMounted(() => {
+      loadListas();
+    });
+
+    return {
+      listas,
+      novaLista,
+      deleteLista,
+      formatDate,
+      addOutline
+    };
+  }
+});
+&lt;/script>
     };
 
     const deleteLista = async (id: number) => {
