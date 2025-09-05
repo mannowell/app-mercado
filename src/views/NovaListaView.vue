@@ -118,3 +118,23 @@ export default defineComponent({
   }
 });
 &lt;/script>
+    };
+
+    const salvarLista = async () => {
+      await db.init();
+      const id = await db.addListaCompra(lista.value);
+      router.push(`/lista/${id}`);
+    };
+
+    onMounted(() => {
+      loadMercados();
+    });
+
+    return {
+      mercados,
+      lista,
+      salvarLista
+    };
+  }
+});
+&lt;/script>
