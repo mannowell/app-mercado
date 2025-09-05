@@ -17,8 +17,7 @@ const config: CapacitorConfig = {
     buildOptions: {
       keystorePath: 'release.keystore',
       keystoreAlias: 'app-mercado',
-      keystorePassword: 'app-mercado',
-      packageName: 'com.appmercado.app'
+      keystorePassword: 'app-mercado'
     }
   }
 };

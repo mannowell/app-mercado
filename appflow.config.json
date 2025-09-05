@@ -1,0 +1,17 @@
+{
+  "apps": [{
+    "appId": "com.appmercado.app",
+    "root": ".",
+    "dependencyInstallCommand": "npm install",
+    "webBuildCommand": "npm run build",
+    "androidBuildType": "debug",
+    "android": {
+      "signing": {
+        "storeFile": "release.keystore",
+        "storePassword": "app-mercado",
+        "keyAlias": "app-mercado",
+        "keyPassword": "app-mercado"
+      }
+    }
+  }]
+}
