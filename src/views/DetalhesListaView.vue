@@ -1,100 +1,84 @@
-&lt;template>
-  &lt;ion-page>
-    &lt;ion-header>
-      &lt;ion-toolbar>
-        &lt;ion-buttons slot="start">
-          &lt;ion-back-button default-href="/listas">&lt;/ion-back-button>
-        &lt;/ion-buttons>
-        &lt;ion-title>Detalhes da Lista&lt;/ion-title>
-        &lt;ion-buttons slot="end">
-          &lt;ion-button @click="addItem">
-            &lt;ion-icon :icon="addOutline">&lt;/ion-icon>
-          &lt;/ion-button>
-        &lt;/ion-buttons>
-      &lt;/ion-toolbar>
-    &lt;/ion-header>
+<template>
+  <ion-page>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-back-button default-href="/"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Detalhes da Lista</ion-title>
+        <ion-buttons slot="end" v-if="!todosItensComprados">
+          <ion-button @click="concluirLista">
+            <ion-icon :icon="checkmarkOutline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
 
-    &lt;ion-content :fullscreen="true">
-      &lt;ion-list>
-        &lt;ion-item-sliding v-for="item in itens" :key="item.id">
-          &lt;ion-item>
-            &lt;ion-checkbox
-              slot="start"
-              v-model="item.comprado"
-              @ion-change="toggleComprado(item)"
-            >&lt;/ion-checkbox>
-            &lt;ion-label>
-              &lt;h2>{{ getProdutoNome(item.produtoId) }}&lt;/h2>
-              &lt;p>Quantidade: {{ item.quantidade }}&lt;/p>
-            &lt;/ion-label>
-            &lt;ion-note slot="end" v-if="item.preco">
-              R$ {{ item.preco.toFixed(2) }}
-            &lt;/ion-note>
-          &lt;/ion-item>
+    <ion-content :fullscreen="true">
+      <ion-list>
+        <ion-item-sliding v-for="item in itens" :key="item.id">
+          <ion-item>
+            <ion-checkbox slot="start" v-model="item.comprado" @ionChange="toggleComprado(item)"></ion-checkbox>
+            <ion-label>
+              <h2>{{ getProdutoNome(item.produtoId) }}</h2>
+              <p>Quantidade: {{ item.quantidade }}</p>
+            </ion-label>
+          </ion-item>
 
-          &lt;ion-item-options side="end">
-            &lt;ion-item-option color="danger" @click="deleteItem(item.id)">
+          <ion-item-options side="end">
+            <ion-item-option color="danger" @click="deleteItem(item.id!)">
               Excluir
-            &lt;/ion-item-option>
-          &lt;/ion-item-options>
-        &lt;/ion-item-sliding>
-      &lt;/ion-list>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
 
-      &lt;ion-fab vertical="bottom" horizontal="end" slot="fixed">
-        &lt;ion-fab-button @click="concluirLista" :disabled="!todosItensComprados">
-          &lt;ion-icon :icon="checkmarkOutline">&lt;/ion-icon>
-        &lt;/ion-fab-button>
-      &lt;/ion-fab>
-    &lt;/ion-content>
+      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button @click="addItem">
+          <ion-icon :icon="addOutline"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
 
-    &lt;!-- Modal para adicionar item -->
-    &lt;ion-modal :is-open="isModalOpen" @didDismiss="closeModal">
-      &lt;ion-header>
-        &lt;ion-toolbar>
-          &lt;ion-title>Adicionar Item&lt;/ion-title>
-          &lt;ion-buttons slot="end">
-            &lt;ion-button @click="closeModal">Fechar&lt;/ion-button>
-          &lt;/ion-buttons>
-        &lt;/ion-toolbar>
-      &lt;/ion-header>
-      &lt;ion-content class="ion-padding">
-        &lt;form @submit.prevent="salvarItem">
-          &lt;ion-item>
-            &lt;ion-label position="stacked">Produto&lt;/ion-label>
-            &lt;ion-select v-model="novoItem.produtoId">
-              &lt;ion-select-option
-                v-for="produto in produtos"
-                :key="produto.id"
-                :value="produto.id"
-              >
-                {{ produto.nome }}
-              &lt;/ion-select-option>
-            &lt;/ion-select>
-          &lt;/ion-item>
+      <ion-modal v-model="isModalOpen">
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>Adicionar Item</ion-title>
+            <ion-buttons slot="end">
+              <ion-button @click="closeModal">Cancelar</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
 
-          &lt;ion-item>
-            &lt;ion-label position="stacked">Quantidade&lt;/ion-label>
-            &lt;ion-input
-              type="number"
-              v-model="novoItem.quantidade"
-              min="1"
-            >&lt;/ion-input>
-          &lt;/ion-item>
+        <ion-content class="ion-padding">
+          <ion-list>
+            <ion-item>
+              <ion-label position="stacked">Produto</ion-label>
+              <ion-select v-model="novoItem.produtoId" interface="action-sheet">
+                <ion-select-option v-for="produto in produtos" :key="produto.id" :value="produto.id">
+                  {{ produto.nome }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
 
-          &lt;div class="ion-padding">
-            &lt;ion-button expand="block" type="submit">
-              Adicionar
-            &lt;/ion-button>
-          &lt;/div>
-        &lt;/form>
-      &lt;/ion-content>
-    &lt;/ion-modal>
-  &lt;/ion-page>
-&lt;/template>
+            <ion-item>
+              <ion-label position="stacked">Quantidade</ion-label>
+              <ion-input type="number" v-model="novoItem.quantidade" min="1"></ion-input>
+            </ion-item>
+          </ion-list>
 
-&lt;script lang="ts">
-import { defineComponent, ref, onMounted, computed } from 'vue';
+          <ion-button expand="block" @click="salvarItem" :disabled="!novoItem.produtoId">
+            Adicionar
+          </ion-button>
+        </ion-content>
+      </ion-modal>
+    </ion-content>
+  </ion-page>
+</template>
+
+<script lang="ts">
+import { defineComponent, ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { addOutline, checkmarkOutline } from 'ionicons/icons';
 import {
   IonPage,
   IonHeader,
@@ -104,12 +88,10 @@ import {
   IonList,
   IonItem,
   IonLabel,
-  IonNote,
-  IonButton,
+  IonCheckbox,
   IonButtons,
   IonBackButton,
   IonIcon,
-  IonCheckbox,
   IonItemSliding,
   IonItemOptions,
   IonItemOption,
@@ -118,11 +100,11 @@ import {
   IonModal,
   IonSelect,
   IonSelectOption,
-  IonInput
+  IonInput,
+  IonButton
 } from '@ionic/vue';
-import { addOutline, checkmarkOutline } from 'ionicons/icons';
-import { ItemLista, Produto } from '@/types';
 import { DatabaseService } from '@/services/DatabaseService';
+import type { ItemLista, Produto } from '@/types';
 
 export default defineComponent({
   name: 'DetalhesListaView',
@@ -135,7 +117,6 @@ export default defineComponent({
     IonList,
     IonItem,
     IonLabel,
-    IonNote,
     IonButton,
     IonButtons,
     IonBackButton,
@@ -184,7 +165,12 @@ export default defineComponent({
     };
 
     const toggleComprado = async (item: ItemLista) => {
-      // Implementar atualização do status do item
+      if (item.id === undefined) return;
+      await db.updateItemLista({
+        id: item.id,
+        comprado: item.comprado
+      });
+      loadData();
     };
 
     const addItem = () => {
@@ -212,7 +198,8 @@ export default defineComponent({
     };
 
     const deleteItem = async (itemId: number) => {
-      // Implementar exclusão do item
+      await db.deleteItemLista(itemId);
+      loadData();
     };
 
     const todosItensComprados = computed(() => {
@@ -220,7 +207,11 @@ export default defineComponent({
     });
 
     const concluirLista = async () => {
-      // Implementar conclusão da lista
+      await db.updateLista({
+        id: listaId,
+        status: 'concluida'
+      });
+      router.back();
     };
 
     onMounted(() => {
@@ -245,4 +236,4 @@ export default defineComponent({
     };
   }
 });
-&lt;/script>
+</script>

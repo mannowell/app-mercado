@@ -30,7 +30,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/mercados',
     name: 'Mercados',
-    component: () => import('../views/MercadosView.vue')
+    component: () => import('@/views/MercadosView.vue')
   }
 ]
 

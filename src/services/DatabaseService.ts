@@ -152,6 +152,75 @@ export class DatabaseService {
     return result.values || [];
   }
 
+  // Atualizar Lista
+  async updateLista(lista: Partial<ListaCompra> & { id: number }): Promise<void> {
+    const now = new Date().toISOString();
+    const fields: string[] = [];
+    const values: any[] = [];
+
+    if (lista.data) {
+      fields.push('data = ?');
+      values.push(lista.data.toISOString());
+    }
+    if (lista.mercadoId) {
+      fields.push('mercadoId = ?');
+      values.push(lista.mercadoId);
+    }
+    if (lista.status) {
+      fields.push('status = ?');
+      values.push(lista.status);
+    }
+    if (typeof lista.total === 'number') {
+      fields.push('total = ?');
+      values.push(lista.total);
+    }
+
+    fields.push('updatedAt = ?');
+    values.push(now);
+
+    values.push(lista.id);
+
+    await this.db.run(
+      `UPDATE listas_compra SET ${fields.join(', ')} WHERE id = ?`,
+      values
+    );
+  }
+
+  // Atualizar Item da Lista
+  async updateItemLista(item: Partial<ItemLista> & { id: number }): Promise<void> {
+    const now = new Date().toISOString();
+    const fields: string[] = [];
+    const values: any[] = [];
+
+    if (item.quantidade) {
+      fields.push('quantidade = ?');
+      values.push(item.quantidade);
+    }
+    if (item.preco) {
+      fields.push('preco = ?');
+      values.push(item.preco);
+    }
+    if (typeof item.comprado === 'boolean') {
+      fields.push('comprado = ?');
+      values.push(item.comprado ? 1 : 0);
+    }
+
+    fields.push('updatedAt = ?');
+    values.push(now);
+
+    values.push(item.id);
+
+    await this.db.run(
+      `UPDATE itens_lista SET ${fields.join(', ')} WHERE id = ?`,
+      values
+    );
+  }
+
+  // Excluir Item da Lista
+  async deleteItemLista(itemId: number): Promise<void> {
+    await this.db.run('DELETE FROM itens_lista WHERE id = ?', [itemId]);
+  }
+
   // Histórico de Preços
   async addHistoricoPreco(historico: Omit<HistoricoPreco, 'id' | 'createdAt' | 'updatedAt'>): Promise<number> {
     const now = new Date().toISOString();
