@@ -1,5 +1,6 @@
-import { createApp } from 'vue'
-import App from './App.vue'
+import { createApp } from 'vue';
+import { createPinia } from 'pinia';
+import App from './App.vue';
 import router from './router';
 
 import { IonicVue } from '@ionic/vue';
@@ -34,10 +35,22 @@ import '@ionic/vue/css/palettes/dark.system.css';
 /* Theme variables */
 import './theme/variables.css';
 
+// Initialize Pinia
+const pinia = createPinia();
+
+// Create Vue app
 const app = createApp(App)
+  .use(pinia)
   .use(IonicVue)
   .use(router);
 
+// Initialize the app after the router is ready
 router.isReady().then(() => {
   app.mount('#app');
 });
+
+// Error handler global
+app.config.errorHandler = (err, instance, info) => {
+  console.error('Global error handler:', { err, instance, info });
+  // Aqui você pode adicionar lógica para notificar o usuário sobre o erro
+};

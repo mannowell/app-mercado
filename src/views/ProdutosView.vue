@@ -1,89 +1,89 @@
-&lt;template>
-  &lt;ion-page>
-    &lt;ion-header>
-      &lt;ion-toolbar>
-        &lt;ion-buttons slot="start">
-          &lt;ion-menu-button>&lt;/ion-menu-button>
-        &lt;/ion-buttons>
-        &lt;ion-title>Produtos&lt;/ion-title>
-        &lt;ion-buttons slot="end">
-          &lt;ion-button @click="showAddModal">
-            &lt;ion-icon :icon="addOutline">&lt;/ion-icon>
-          &lt;/ion-button>
-        &lt;/ion-buttons>
-      &lt;/ion-toolbar>
-    &lt;/ion-header>
+<template>
+  <ion-page>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Produtos</ion-title>
+        <ion-buttons slot="end">
+          <ion-button @click="showAddModal">
+            <ion-icon :icon="addOutline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
 
-    &lt;ion-content :fullscreen="true">
-      &lt;ion-searchbar
+    <ion-content :fullscreen="true">
+      <ion-searchbar
         v-model="searchTerm"
         :debounce="300"
         placeholder="Buscar produtos"
         @ionInput="handleSearch"
-      >&lt;/ion-searchbar>
+      ></ion-searchbar>
 
-      &lt;ion-list>
-        &lt;ion-item-sliding v-for="produto in produtosFiltrados" :key="produto.id">
-          &lt;ion-item>
-            &lt;ion-label>
-              &lt;h2>{{ produto.nome }}&lt;/h2>
-              &lt;p v-if="produto.descricao">{{ produto.descricao }}&lt;/p>
-            &lt;/ion-label>
-          &lt;/ion-item>
+      <ion-list>
+        <ion-item-sliding v-for="produto in produtosFiltrados" :key="produto.id">
+          <ion-item>
+            <ion-label>
+              <h2>{{ produto.nome }}</h2>
+              <p v-if="produto.descricao">{{ produto.descricao }}</p>
+            </ion-label>
+          </ion-item>
 
-          &lt;ion-item-options side="end">
-            &lt;ion-item-option color="primary" @click="editProduto(produto)">
+          <ion-item-options side="end">
+            <ion-item-option color="primary" @click="editProduto(produto)">
               Editar
-            &lt;/ion-item-option>
-            &lt;ion-item-option color="danger" @click="deleteProduto(produto.id)">
+            </ion-item-option>
+            <ion-item-option color="danger" @click="deleteProduto(produto.id)">
               Excluir
-            &lt;/ion-item-option>
-          &lt;/ion-item-options>
-        &lt;/ion-item-sliding>
-      &lt;/ion-list>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
 
-      &lt;ion-modal :is-open="isModalOpen" @didDismiss="closeModal">
-        &lt;ion-header>
-          &lt;ion-toolbar>
-            &lt;ion-title>{{ editMode ? 'Editar' : 'Novo' }} Produto&lt;/ion-title>
-            &lt;ion-buttons slot="end">
-              &lt;ion-button @click="closeModal">Fechar&lt;/ion-button>
-            &lt;/ion-buttons>
-          &lt;/ion-toolbar>
-        &lt;/ion-header>
+      <ion-modal :is-open="isModalOpen" @didDismiss="closeModal">
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>{{ editMode ? 'Editar' : 'Novo' }} Produto</ion-title>
+            <ion-buttons slot="end">
+              <ion-button @click="closeModal">Fechar</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
 
-        &lt;ion-content class="ion-padding">
-          &lt;form @submit.prevent="saveProduto">
-            &lt;ion-item>
-              &lt;ion-label position="stacked">Nome&lt;/ion-label>
-              &lt;ion-input
+        <ion-content class="ion-padding">
+          <form @submit.prevent="saveProduto">
+            <ion-item>
+              <ion-label position="stacked">Nome</ion-label>
+              <ion-input
                 v-model="currentProduto.nome"
                 required
                 type="text"
-              >&lt;/ion-input>
-            &lt;/ion-item>
+              ></ion-input>
+            </ion-item>
 
-            &lt;ion-item>
-              &lt;ion-label position="stacked">Descrição&lt;/ion-label>
-              &lt;ion-textarea
+            <ion-item>
+              <ion-label position="stacked">Descrição</ion-label>
+              <ion-textarea
                 v-model="currentProduto.descricao"
                 rows="3"
-              >&lt;/ion-textarea>
-            &lt;/ion-item>
+              ></ion-textarea>
+            </ion-item>
 
-            &lt;div class="ion-padding">
-              &lt;ion-button expand="block" type="submit">
+            <div class="ion-padding">
+              <ion-button expand="block" type="submit">
                 {{ editMode ? 'Atualizar' : 'Adicionar' }}
-              &lt;/ion-button>
-            &lt;/div>
-          &lt;/form>
-        &lt;/ion-content>
-      &lt;/ion-modal>
-    &lt;/ion-content>
-  &lt;/ion-page>
-&lt;/template>
+              </ion-button>
+            </div>
+          </form>
+        </ion-content>
+      </ion-modal>
+    </ion-content>
+  </ion-page>
+</template>
 
-&lt;script lang="ts">
+<script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
 import {
   IonPage,
@@ -219,4 +219,4 @@ export default defineComponent({
     };
   }
 });
-&lt;/script>
+</script>

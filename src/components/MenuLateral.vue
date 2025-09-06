@@ -1,33 +1,33 @@
-&lt;template>
-  &lt;ion-menu content-id="main-content">
-    &lt;ion-header>
-      &lt;ion-toolbar>
-        &lt;ion-title>Menu&lt;/ion-title>
-      &lt;/ion-toolbar>
-    &lt;/ion-header>
+<template>
+  <ion-menu content-id="main-content">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
 
-    &lt;ion-content>
-      &lt;ion-list>
-        &lt;ion-item router-link="/listas" @click="closeMenu">
-          &lt;ion-icon :icon="listOutline" slot="start">&lt;/ion-icon>
-          &lt;ion-label>Listas de Compras&lt;/ion-label>
-        &lt;/ion-item>
+    <ion-content>
+      <ion-list>
+        <ion-item router-link="/listas" @click="closeMenu">
+          <ion-icon :icon="listOutline" slot="start"></ion-icon>
+          <ion-label>Listas de Compras</ion-label>
+        </ion-item>
 
-        &lt;ion-item router-link="/produtos" @click="closeMenu">
-          &lt;ion-icon :icon="cubeOutline" slot="start">&lt;/ion-icon>
-          &lt;ion-label>Produtos&lt;/ion-label>
-        &lt;/ion-item>
+        <ion-item router-link="/produtos" @click="closeMenu">
+          <ion-icon :icon="cubeOutline" slot="start"></ion-icon>
+          <ion-label>Produtos</ion-label>
+        </ion-item>
 
-        &lt;ion-item router-link="/mercados" @click="closeMenu">
-          &lt;ion-icon :icon="storefront" slot="start">&lt;/ion-icon>
-          &lt;ion-label>Mercados&lt;/ion-label>
-        &lt;/ion-item>
-      &lt;/ion-list>
-    &lt;/ion-content>
-  &lt;/ion-menu>
-&lt;/template>
+        <ion-item router-link="/mercados" @click="closeMenu">
+          <ion-icon :icon="storefront" slot="start"></ion-icon>
+          <ion-label>Mercados</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+</template>
 
-&lt;script lang="ts">
+<script lang="ts">
 import { defineComponent } from 'vue';
 import {
   IonMenu,
@@ -69,4 +69,4 @@ export default defineComponent({
     };
   }
 });
-&lt;/script>
+</script>

@@ -8,18 +8,8 @@ const config: CapacitorConfig = {
   server: {
     androidScheme: 'https',
     iosScheme: 'https',
-    cleartext: true,
+    cleartext: false,
     allowNavigation: []
-  },
-  android: {
-    allowMixedContent: true,
-    buildOptions: {
-      keystorePath: 'release.keystore',
-      keystoreAlias: 'app-mercado',
-      keystorePassword: 'app-mercado',
-      releaseType: 'AAB',
-      signingType: 'jarsigner'
-    }
   },
   plugins: {
     // Configurações do SQLite
@@ -28,13 +18,13 @@ const config: CapacitorConfig = {
       iosIsEncryption: true,
       iosKeychainPrefix: 'app_mercado',
       iosBiometric: {
-        biometricAuth: false,
+        biometricAuth: true,
         biometricTitle: 'Autenticação Biométrica',
         biometricSubTitle: 'Faça login usando biometria'
       },
       androidIsEncryption: true,
       androidBiometric: {
-        biometricAuth: false,
+        biometricAuth: true,
         biometricTitle: 'Autenticação Biométrica',
         biometricSubTitle: 'Faça login usando biometria'
       },
@@ -70,13 +60,30 @@ const config: CapacitorConfig = {
   },
   // Configurações específicas para Android
   android: {
-    allowMixedContent: true,
+    allowMixedContent: false,
     buildOptions: {
       keystorePath: 'release.keystore',
       keystoreAlias: 'app-mercado',
       keystorePassword: 'app-mercado',
       releaseType: 'AAB',
       signingType: 'jarsigner'
+    }
+  },
+  // Configurações específicas para iOS
+  ios: {
+    contentInset: 'automatic',
+    allowsLinkPreview: false,
+    scrollEnabled: true,
+    hideLogs: false,
+    // Configurações de privacidade para iOS
+    privacyManifest: {
+      NSPhotoLibraryUsageDescription: 'Permitir acesso à galeria para adicionar imagens aos produtos',
+      NSCameraUsageDescription: 'Permitir acesso à câmera para tirar fotos dos produtos',
+      NSLocationWhenInUseUsageDescription: 'Permitir acesso à localização para encontrar mercados próximos',
+      NSContactsUsageDescription: 'Permitir acesso aos contatos para compartilhar listas',
+      NSAppleMusicUsageDescription: 'Permitir acesso à mídia para reproduzir sons do aplicativo',
+      NSMicrophoneUsageDescription: 'Permitir acesso ao microfone para gravar lembretes de voz',
+      NSMotionUsageDescription: 'Permitir acesso ao sensor de movimento para recursos de acessibilidade'
     }
   }
 };
