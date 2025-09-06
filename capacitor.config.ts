@@ -1,6 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 import { KeyboardResize, KeyboardStyle } from '@capacitor/keyboard';
 
+// Configuração base do Capacitor
 const config: CapacitorConfig = {
   appId: 'com.appmercado.app',
   appName: 'App Mercado',
@@ -21,6 +22,23 @@ const config: CapacitorConfig = {
       signingType: 'jarsigner'
     }
   },
+  ios: {
+    contentInset: 'automatic',
+    allowsLinkPreview: false,
+    scrollEnabled: true,
+    hideLogs: false,
+    // Configurações de privacidade para iOS
+    privacyManifest: {
+      NSPhotoLibraryUsageDescription: 'Permitir acesso à galeria para adicionar imagens aos produtos',
+      NSCameraUsageDescription: 'Permitir acesso à câmera para tirar fotos dos produtos',
+      NSLocationWhenInUseUsageDescription: 'Permitir acesso à localização para encontrar mercados próximos',
+      NSContactsUsageDescription: 'Permitir acesso aos contatos para compartilhar listas',
+      NSAppleMusicUsageDescription: 'Permitir acesso à mídia para reproduzir sons do aplicativo',
+      NSMicrophoneUsageDescription: 'Permitir acesso ao microfone para gravar lembretes de voz',
+      NSMotionUsageDescription: 'Permitir acesso ao sensor de movimento para recursos de acessibilidade'
+    }
+  }
+};,
   plugins: {
     // Configurações do SQLite
     CapacitorSQLite: {

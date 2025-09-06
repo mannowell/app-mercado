@@ -35,14 +35,29 @@ jobs:
     - name: Set up Android SDK
       uses: android-actions/setup-android@v2
       
+    - name: Configure Keystore
+      run: |
+        # Cria diretório para o keystore
+        mkdir -p ~/.android
+        # Copia o keystore para o local correto
+        cp release.keystore ~/.android/debug.keystore
+        # Configura o arquivo de propriedades do keystore
+        echo "storeFile=~/.android/debug.keystore" > android/keystore.properties
+        echo "storePassword=app-mercado" >> android/keystore.properties
+        echo "keyAlias=app-mercado" >> android/keystore.properties
+        echo "keyPassword=app-mercado" >> android/keystore.properties
+        
     - name: Build Android APK
       run: |
         npx cap sync android
         cd android
-        ./gradlew assembleDebug
+        # Cria diretório de saída
+        mkdir -p app/build/outputs/apk/release
+        # Gera o APK assinado
+        ./gradlew assembleRelease
         
     - name: Upload APK
       uses: actions/upload-artifact@v3
       with:
-        name: app-debug
-        path: android/app/build/outputs/apk/debug/app-debug.apk
+        name: app-release
+        path: android/app/build/outputs/apk/release/app-release-unsigned.apk
