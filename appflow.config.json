@@ -1,6 +1,6 @@
 {
   "apps": [{
-    "appId": "com.appmercado.app",
+    "appId": "76c946d9",
     "root": ".",
     "dependencyInstallCommand": "npm install",
     "webBuildCommand": "npm run build",
